@@ -4,11 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class GUIField  {
     private JPanel jPanel;
     Cell jButton1, jButton2, jButton3, jButton4, jButton5, jButton6, jButton7, jButton8, jButton9;
+    ArrayList<Cell> arrayList;
     private Move move = new Move();
+
+    public void endOfGame() {
+        if(move.crossVictory || move.zeroVictory || move.draw){
+            System.out.println("END");
+
+        }
+    }
 
     public GUIField(){
         createJPanel();
@@ -88,6 +97,18 @@ public class GUIField  {
         actionListenerForCell = new ActionListenerForCell(jButton9, (byte) 9);
         jButton9.addActionListener(actionListenerForCell);
         jPanel.add(jButton9);
+
+        // Add cells to array list to optimize working with object move()
+        arrayList = new ArrayList<Cell>();
+        arrayList.add(jButton1);
+        arrayList.add(jButton2);
+        arrayList.add(jButton3);
+        arrayList.add(jButton4);
+        arrayList.add(jButton5);
+        arrayList.add(jButton6);
+        arrayList.add(jButton7);
+        arrayList.add(jButton8);
+        arrayList.add(jButton9);
     }
 
     public JPanel getjPanel() {
@@ -97,6 +118,7 @@ public class GUIField  {
     public void setjPanel(JPanel jPanel) {
         this.jPanel = jPanel;
     }
+
 
     // Create action listener for our cells
     class ActionListenerForCell implements ActionListener {
@@ -110,7 +132,7 @@ public class GUIField  {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            move.fillCell(jButton);
+            move.fillCell(jButton, arrayList);
             jButton = move.jButton;
 
             switch (buttonNumber){
@@ -118,7 +140,6 @@ public class GUIField  {
 
                         jButton1 = jButton;
                         break;
-
                 case (2):
                     jButton2 = jButton;
                     break;
@@ -127,14 +148,12 @@ public class GUIField  {
                     break;
                 case (4):
                     jButton4 = jButton;
-                    jButton4.setEmpty(false);
                     break;
                 case (5):
                     jButton5 = jButton;
                     break;
                 case (6):
                     jButton6 = jButton;
-                    jButton6.setEmpty(false);
                     break;
                 case (7):
                     jButton7 = jButton;
@@ -147,8 +166,8 @@ public class GUIField  {
                     break;
                     default:
                         break;
-
             }
+            endOfGame();
         }
     }
 }

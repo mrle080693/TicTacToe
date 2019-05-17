@@ -5,10 +5,7 @@ import javax.swing.*;
 public class Cell extends JButton {
     private boolean isEmpty = true;
     private boolean isX;
-
-    public Cell(){
-
-    }
+    private boolean isO;
 
     // We provide access to encapsulated variables
 
@@ -26,5 +23,13 @@ public class Cell extends JButton {
 
     public void setX(boolean x) {
         isX = x;
+    }
+
+    public boolean isO() {
+        return isO;
+    }
+
+    public void setO(boolean o) {
+        isO = o;
     }
 }
