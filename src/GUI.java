@@ -4,62 +4,55 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Class for graphical user interface and listeners for it buttons
+
 public class GUI {
+
+    // Window and main components
     private JFrame jFrame;
     private JPanel jPanel;
-    private JPanel jPanelEndOfGame;
+    // It may be local but I want to see all graphical components there
     private JButton jButtonNew;
     private JButton jButtonExit;
 
-    // For Panel
-    Cell jButton1, jButton2, jButton3, jButton4, jButton5, jButton6, jButton7, jButton8, jButton9;
-    ArrayList<Cell> arrayList;
+    // Components for field
+    private Cell cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
+    private ArrayList<Cell> field;
+
+    // Create object move to use methods of it
     private Move move = new Move();
 
+    // Panel for showing game end result
+    // It may be local but I want to see all graphical components there
+    private JPanel jPanelEndOfGame;
+    private JLabel jLabelForJPanelEndOfGame;
 
+    // Method for game starting
 
-    public GUI(){
+    void startTheGame(){
         createJFrame();
-        createComponents();
+        addMainComponentsToJFrame();
+        addFieldComponentsToField();
+        cellsToArrayList();
     }
 
-    public void endOfGame() {
-        if(move.crossVictory || move.zeroVictory || move.draw){
-           jPanelEndOfGame = new JPanel();
-           jPanelEndOfGame.setBounds(0, 0, 190, 190);
-           jPanelEndOfGame.setLayout(null);
-           if(move.crossVictory) {
-               jPanelEndOfGame.setBackground(Color.red);
-           }
-           if (move.zeroVictory){
-               jPanelEndOfGame.setBackground(Color.blue);
-           }
-           if (move.draw){
-               jPanelEndOfGame.setBackground(Color.green);
-           }
-           jPanel.setVisible(false);
-           jFrame.add(jPanelEndOfGame);
+    // Initialize window
 
-
-           System.out.println("END");
-
-        }
-    }
-
-    public void createJFrame(){
+    private void createJFrame(){
         jFrame = new JFrame("TIC TAC TOE");
         jFrame.setSize(200, 270);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        // Creating at the center of the screen
         jFrame.setLocationRelativeTo(null);
         jFrame.setResizable(false);
+        // Get chance to put components we need
         jFrame.setLayout(null);
-
-
     }
 
-    public void createComponents(){
-        // Create JPanel (Field)
+    // Initialize main components
+    private void addMainComponentsToJFrame() {
+        // Initialize panel for field
         jPanel = new JPanel();
         jPanel.setBounds(0, 0, 190, 190);
         jPanel.setLayout(null);
@@ -69,106 +62,150 @@ public class GUI {
         // Create Button for start and restart the game
         jButtonNew = new JButton("NEW");
         jButtonNew.setBounds(15, 210, 80, 30);
-        GUI.ActionListenerForButtonNew actionListenerForButtonNew = new GUI.ActionListenerForButtonNew();
+        ActionListenerForButtonNew actionListenerForButtonNew = new ActionListenerForButtonNew();
         jButtonNew.addActionListener(actionListenerForButtonNew);
         jFrame.add(jButtonNew);
         // Create Button for exit the game
         jButtonExit = new JButton("EXIT");
         jButtonExit.setBounds(100, 210, 80, 30);
-        GUI.ActionListenerForButtonExit actionListenerForButtonExit = new GUI.ActionListenerForButtonExit();
+        ActionListenerForButtonExit actionListenerForButtonExit = new ActionListenerForButtonExit();
         jButtonExit.addActionListener(actionListenerForButtonExit);
         jFrame.add(jButtonExit);
-
-        // Panel components
-
-        GUI.ActionListenerForCell actionListenerForCell;
-
-        jButton1 = new Cell();
-        jButton1.setBounds(0, 0, 60, 60);
-        jButton1.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton1, (byte) 1);
-        jButton1.addActionListener(actionListenerForCell);
-        jPanel.add(jButton1);
-
-        jButton2 = new Cell();
-        jButton2.setBounds(65, 0, 60, 60);
-        jButton2.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton2, (byte) 2);
-        jButton2.addActionListener(actionListenerForCell);
-        jPanel.add(jButton2);
-
-        jButton3 = new Cell();
-        jButton3.setBounds(130, 0, 60, 60);
-        jButton3.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton3, (byte) 3);
-        jButton3.addActionListener(actionListenerForCell);
-        jPanel.add(jButton3);
-
-        jButton4 = new Cell();
-        jButton4.setBounds(0, 65, 60, 60);
-        jButton4.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton4, (byte) 4);
-        jButton4.addActionListener(actionListenerForCell);
-        jPanel.add(jButton4);
-
-        jButton5 = new Cell();
-        jButton5.setBounds(65, 65, 60, 60);
-        jButton5.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton5, (byte) 5);
-        jButton5.addActionListener(actionListenerForCell);
-        jPanel.add(jButton5);
-
-        jButton6 = new Cell();
-        jButton6.setBounds(130, 65, 60, 60);
-        jButton6.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton6, (byte) 6);
-        jButton6.addActionListener(actionListenerForCell);
-        jPanel.add(jButton6);
-
-        jButton7 = new Cell();
-        jButton7.setBounds(0, 130, 60, 60);
-        jButton7.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton7, (byte) 7);
-        jButton7.addActionListener(actionListenerForCell);
-        jPanel.add(jButton7);
-
-        jButton8 = new Cell();
-        jButton8.setBounds(65, 130, 60, 60);
-        jButton8.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton8, (byte) 8);
-        jButton8.addActionListener(actionListenerForCell);
-        jPanel.add(jButton8);
-
-        jButton9 = new Cell();
-        jButton9.setBounds(130, 130, 60, 60);
-        jButton9.setBackground(Color.white);
-        actionListenerForCell = new GUI.ActionListenerForCell(jButton9, (byte) 9);
-        jButton9.addActionListener(actionListenerForCell);
-        jPanel.add(jButton9);
-
-        // Add cells to array list to optimize working with object move()
-        arrayList = new ArrayList<Cell>();
-        arrayList.add(jButton1);
-        arrayList.add(jButton2);
-        arrayList.add(jButton3);
-        arrayList.add(jButton4);
-        arrayList.add(jButton5);
-        arrayList.add(jButton6);
-        arrayList.add(jButton7);
-        arrayList.add(jButton8);
-        arrayList.add(jButton9);
     }
 
-    // Create action listeners for our buttons
+    // Initialize field components and add to jPanel
+
+     private void addFieldComponentsToField() {
+         // It is for click cells
+         ActionListenerForCell actionListenerForCell;
+         // Cells initializing and adding to field
+         cell1 = new Cell();
+         cell1.setBounds(0, 0, 60, 60);
+         cell1.setBackground(Color.white);
+         // Chois cell for our listener
+         actionListenerForCell = new ActionListenerForCell(cell1, (byte) 1);
+         cell1.addActionListener(actionListenerForCell);
+         jPanel.add(cell1);
+
+         cell2 = new Cell();
+         cell2.setBounds(65, 0, 60, 60);
+         cell2.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell2, (byte) 2);
+         cell2.addActionListener(actionListenerForCell);
+         jPanel.add(cell2);
+
+         cell3 = new Cell();
+         cell3.setBounds(130, 0, 60, 60);
+         cell3.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell3, (byte) 3);
+         cell3.addActionListener(actionListenerForCell);
+         jPanel.add(cell3);
+
+         cell4 = new Cell();
+         cell4.setBounds(0, 65, 60, 60);
+         cell4.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell4, (byte) 4);
+         cell4.addActionListener(actionListenerForCell);
+         jPanel.add(cell4);
+
+         cell5 = new Cell();
+         cell5.setBounds(65, 65, 60, 60);
+         cell5.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell5, (byte) 5);
+         cell5.addActionListener(actionListenerForCell);
+         jPanel.add(cell5);
+
+         cell6 = new Cell();
+         cell6.setBounds(130, 65, 60, 60);
+         cell6.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell6, (byte) 6);
+         cell6.addActionListener(actionListenerForCell);
+         jPanel.add(cell6);
+
+         cell7 = new Cell();
+         cell7.setBounds(0, 130, 60, 60);
+         cell7.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell7, (byte) 7);
+         cell7.addActionListener(actionListenerForCell);
+         jPanel.add(cell7);
+
+         cell8 = new Cell();
+         cell8.setBounds(65, 130, 60, 60);
+         cell8.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell8, (byte) 8);
+         cell8.addActionListener(actionListenerForCell);
+         jPanel.add(cell8);
+
+         cell9 = new Cell();
+         cell9.setBounds(130, 130, 60, 60);
+         cell9.setBackground(Color.white);
+         actionListenerForCell = new ActionListenerForCell(cell9, (byte) 9);
+         cell9.addActionListener(actionListenerForCell);
+         jPanel.add(cell9);
+     }
+
+     // Add cells to array list to optimize working with object move()
+
+    private void cellsToArrayList(){
+        field = new ArrayList<>();
+        field.add(cell1);
+        field.add(cell2);
+        field.add(cell3);
+        field.add(cell4);
+        field.add(cell5);
+        field.add(cell6);
+        field.add(cell7);
+        field.add(cell8);
+        field.add(cell9);
+    }
+
+    // Variants of game ending
+
+    private void endOfGame() {
+        if(move.crossVictory || move.zeroVictory || move.draw){
+            jPanelEndOfGame = new JPanel();
+            jPanelEndOfGame.setBounds(0, 0, 190, 190);
+            jPanelEndOfGame.setLayout(null);
+
+
+            jLabelForJPanelEndOfGame = new JLabel();
+            jLabelForJPanelEndOfGame.setBounds(0, 0, 190, 190);
+            jPanelEndOfGame.add(jLabelForJPanelEndOfGame);
+
+            if(move.crossVictory) {
+                ImageIcon imageIconCrossWin = new ImageIcon("crossVictory.gif");
+                jLabelForJPanelEndOfGame.setIcon(imageIconCrossWin);
+            }
+            if (move.zeroVictory){
+                ImageIcon imageIconZeroWin = new ImageIcon("zeroVictory.gif");
+                jLabelForJPanelEndOfGame.setIcon(imageIconZeroWin);
+            }
+            if (move.draw){
+                ImageIcon imageIconDraw = new ImageIcon("draw.gif");
+                jLabelForJPanelEndOfGame.setIcon(imageIconDraw);
+            }
+            jPanel.setVisible(false);
+            jFrame.add(jPanelEndOfGame);
+
+            System.out.println("END");
+
+        }
+    }
+
+    // Create action listener for button "NEW"
     class ActionListenerForButtonNew implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Close window
             jFrame.dispose();
+            // New window
             GUI gui = new GUI();
+            gui.startTheGame();
         }
     }
 
+    // For button "EXIT"
     class ActionListenerForButtonExit implements ActionListener{
 
         @Override
@@ -177,52 +214,55 @@ public class GUI {
         }
     }
 
+    // Universal listener for all cells
     class ActionListenerForCell implements ActionListener {
-        Cell jButton;
-        byte buttonNumber;
+        Cell cell;
+        byte cellNumber;
 
-        public ActionListenerForCell(Cell jButton, byte buttonNumber){
-            this.jButton = jButton;
-            this.buttonNumber = buttonNumber;
+        // Constructor for listener to chose cell we need
+        ActionListenerForCell(Cell cell, byte buttonNumber){
+            this.cell = cell;
+            this.cellNumber = buttonNumber;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            move.fillCell(jButton, arrayList);
-            jButton = move.jButton;
+            move.fillCell(cell, field);
+            cell = move.cell;
 
-            switch (buttonNumber){
+            // Cell choice
+            switch (cellNumber){
                 case (1):
-
-                    jButton1 = jButton;
+                    cell1 = cell;
                     break;
                 case (2):
-                    jButton2 = jButton;
+                    cell2 = cell;
                     break;
                 case (3):
-                    jButton3 = jButton;
+                    cell3 = cell;
                     break;
                 case (4):
-                    jButton4 = jButton;
+                    cell4 = cell;
                     break;
                 case (5):
-                    jButton5 = jButton;
+                    cell5 = cell;
                     break;
                 case (6):
-                    jButton6 = jButton;
+                    cell6 = cell;
                     break;
                 case (7):
-                    jButton7 = jButton;
+                    cell7 = cell;
                     break;
                 case (8):
-                    jButton8 = jButton;
+                    cell8 = cell;
                     break;
                 case (9):
-                    jButton9 = jButton;
+                    cell9 = cell;
                     break;
                 default:
                     break;
             }
+            // Make a check on the end of the game
             endOfGame();
         }
     }

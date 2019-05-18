@@ -1,6 +1,10 @@
 import javax.swing.*;
 
+// We extend this class from button to create not a standard buttons.
+// We need buttons with some new parameters to work with it as we need.
+
 public class Cell extends JButton {
+    // Variables for checking cells
     private boolean isEmpty = true;
     private boolean isX;
     private boolean isO;
