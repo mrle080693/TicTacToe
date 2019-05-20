@@ -3,6 +3,7 @@ It is nice. Recomend you to play it at least once
 
 Technologies used:
 * Java Core
+* OOP
 * Collections
 * Multithreading
 * Swing
